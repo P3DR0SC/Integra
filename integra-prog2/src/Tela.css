@@ -1,0 +1,185 @@
+/* Reset e Fontes */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body, html {
+    height: 100%;
+    background-color: #f6f5f7;
+}
+
+/* Container Principal */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+}
+
+/* Containers de Formulário */
+.form-container {
+    width: 50%;
+    height: 100%;
+    padding: 50px;
+    transition: all 0.6s ease-in-out;
+    z-index: 2;
+}
+
+.login-container {
+    background-color: #fff;
+}
+
+.cadastro-container {
+    background-color: #ff4b2b;
+    color: #fff;
+    transform: translateX(100%);
+}
+
+/* Formulários */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form h2 {
+    margin-bottom: 20px;
+}
+
+form input {
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 12px 15px;
+    margin-top: 20px;
+    border: none;
+    background-color: #ff4b2b;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #ff3a1a;
+}
+
+/* Botões de Alternância */
+.switch-btn {
+    margin-top: 20px;
+    background-color: #fff;
+    border: 2px solid #000000;
+    color: #390281;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.switch-btn:hover {
+    background-color: #ff4b2b;
+    color: #fff;
+}
+
+/* Sobreposição */
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 1;
+}
+
+.overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-login, .overlay-cadastrar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.6s ease-in-out;
+}
+
+.overlay-login {
+    right: 0;
+    background-color: #ff4b2b;
+    color: #fff;   
+}
+
+.overlay-cadastrar {
+    left: 0;
+    background-color: #fff;
+    color: #ff4b2b;
+}
+
+/* Estados Ativos */
+.container.show-cadastro .overlay-container {
+    transform: translateX(-100%);
+}
+
+.container.show-cadastro .cadastro-container {
+    transform: translateX(0);
+}
+
+.container.show-cadastro .login-container {
+    transform: translateX(100%);
+}
+
+.container.show-login .overlay-container {
+    transform: translateX(0%);
+}
+
+.container.show-login .cadastro-container {
+    transform: translateX(100%);
+}
+
+.container.show-login .login-container {
+    transform: translateX(0);
+}
+
+/* Ocultar sobreposições quando necessário */
+.hidden {
+    display: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .form-container, .overlay-container {
+        width: 100%;
+        height: 50%;
+    }
+    .overlay {
+        flex-direction: column;
+    }
+    .overlay-login, .overlay-cadastrar {
+        position: relative;
+        width: 100%;
+        height: 50%;
+    }
+}
