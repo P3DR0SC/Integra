@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 const usuario =require("./routes/usuario");
 app.use("/usuario", usuario);
 
+
 // Defina suas rotas da API
 app.get('/home', (req, res) => {
   res.json({ message: "Hello from the server!" });
