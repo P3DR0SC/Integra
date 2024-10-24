@@ -8,4 +8,11 @@ router.post("/cadastro", (req,res) => {
     console.log("entro")
 });
 
+router.post("/professor", (req,res) => {
+    const {nome, email, senha, cpf, dataNasciemento, telefone} = req.body;
+
+    res.send(nome +  " " + email + " " + senha +  " " + cpf + " " + dataNasciemento + " " + telefone);
+  
+});
+
 module.exports = router;

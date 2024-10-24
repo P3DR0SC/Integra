@@ -12,6 +12,13 @@ app.get('/home', (req, res) => {
   res.json({ message: "Hello from the server!" });
 });
 
+const professor =require("./routes/professor");
+app.use("/professor", professor);
+
+const professor =require("./routes/");
+app.use("/professor", professor);
+
+
 
 // Inicia o servidor
 app.listen(PORT, () => {
