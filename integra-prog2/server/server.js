@@ -3,18 +3,15 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware para servir os arquivos estáticos do React (compilados no build)
-app.use(express.static(path.join(__dirname, 'build')));
+
+const usuario =require("./routes/usuario");
+app.use("/usuario", usuario);
 
 // Defina suas rotas da API
-app.get('/api/hello', (req, res) => {
+app.get('/home', (req, res) => {
   res.json({ message: "Hello from the server!" });
 });
 
-// Rota que redireciona todas as requisições para o React (cliente)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 // Inicia o servidor
 app.listen(PORT, () => {
