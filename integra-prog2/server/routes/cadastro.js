@@ -10,6 +10,9 @@ router.post("/cadastro", (req,res) => {
     const telefone=res.body.telefone;
     const nascimento=res.body.nascimento;
 
+    const new_cad = db.any("SELECT * FROM aluno;");
+
+
     res.send("Você está tentando cadastrar um usuario com \n" +
         "Nome: "+ nome + "\n" +
         "Cpf: "+ cpf + "\n" +
@@ -19,4 +22,9 @@ router.post("/cadastro", (req,res) => {
     )
 
 });
+
+
+router.post("/new-table", (req,res)=>{
+
+})
 module.exports = router;
