@@ -9,9 +9,6 @@ router.post("/pagamento", (req, res) => {
     res.send('Conta no nome de '+ nome + 'paga no valor de ' + valor+ 'com data de vencimento ' + data);
 }); 
 
-const usuarioBD = "progII"; 
-const senhaBD = "uffs";
-const db =  pgp(`postgres://${usuarioBD}:${senhaBD}@192.168.253.155:5432/progII`);
 
 router.get("/alunos", async (req,res)=>{
     const alunos = await db.any("SELECT * FROM aluno;");
@@ -39,7 +36,6 @@ router.post("/estoque", async (req,res)=>{
     res.send("FOi");
 })
 
-
 router.post("/conta", (req, res) => {
     const { nome } = req.body;
 
@@ -48,6 +44,13 @@ router.post("/conta", (req, res) => {
 });
 
 router.post("/solicita-treino", (req, res) => {
+    const { nome } = req.body;
+
+    console.log(nome + ' está preste a solicitar um treino');
+    res.send(nome + ' está preste a solicitar um treino'); 
+});
+
+router.get("/solicita-treino", (req, res) => {
     const { nome } = req.body;
 
     console.log(nome + ' está preste a solicitar um treino');

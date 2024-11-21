@@ -3,13 +3,26 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const { Pool } = require("pg");
+require("dotenv").config({ path: "../banco/.env" }); 
+
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+});
+
+pool.connect((err, client, release) => {
+  if (err) {
+      return console.error("Error connecting to the database:", err.stack);
+  }
+  console.log("Connected to the database!");
+  release(); // Libera a conexão de volta para o pool
+});
+
 const pgp = require("pg-promise")({});
-
-const usuarioBD = "progII"; 
-const senhaBD = "uffs";
-const db =  pgp(`postgres://${usuarioBD}:${senhaBD}@192.168.253.155:5432/progII`);
-
-
 
 app.use(express.json());
 const usuario =require("./routes/usuario");
@@ -31,6 +44,7 @@ app.get('/home', (req, res) => {
  
 // Inicia o servidor
 app.listen(PORT, () => {
-  console.log("Server is running on port ${PORT}");
+  console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+  console.log("Server is running on port "+ PORT);
 });
 
