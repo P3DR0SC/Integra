@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import './Tela.css';
+import { redirect } from "react-router-dom";
+
 
 function App() {
     // Controle de visibilidade dos formulários e overlays
+    function clicouEntrar(){
+         redirect("/Aulas");
+
+    }
     const [isLoginVisible, setIsLoginVisible] = useState(true);
 
     const handleSwitchToCadastro = () => {
@@ -23,7 +29,7 @@ function App() {
                     <h2>Login</h2>
                     <input type="text" placeholder="Usuário" required />
                     <input type="password" placeholder="Senha" required />
-                    <button type="submit">Entrar</button>
+                    <button onClick={clicouEntrar()} type="submit">Entrar</button>
                 </form>
             </div>
 
