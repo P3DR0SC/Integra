@@ -11,7 +11,7 @@ nav.menu-lateral{
     width: 300px;
     height: 100%;
     background-color: rgb(46, 46, 46);
-    padding: 40px 0 40px 1%;
+    padding: 40px 0 63px 1%;
 }
 .btn-expandir{
     width: 100%;
@@ -43,3 +43,11 @@ ul li.item-menu a .icon >i{
 
 
 }
+.container-fluid{
+    padding:0 !important;
+  }
+  
+  .container{
+    padding:0 !important;
+    
+  }
