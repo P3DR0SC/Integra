@@ -7,9 +7,8 @@
 body{
     height: 100vh;
 }
-nav.menu-lateral{
+nav.menu-lateralP{
     margin-left: 20px;
-    margin-top: 1em;
 
 }
 
@@ -17,7 +16,7 @@ ul{
     height: 100%;
     list-style-type: none;
 }
-ul li.item-menu a{
+ul li.item-menuP a{
     color:#ffffff;
     text-decoration: none;
     font-size: 25px;
@@ -25,17 +24,17 @@ ul li.item-menu a{
     display:flex;
     line-height: 25px;
 }
-ul li.item-menu a .txt-link{
+ul li.item-menuP a .txt-link{
     margin-left: 20px;
     
 }
-ul li.item-menu a .icon >i{
+ul li.item-menuP a .icon >i{
     font-size: 30px;
 
 
 }
   
-.container{
+.containerP{
     padding:0 !important;
     width: 300px;
     height: 559px;

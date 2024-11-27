@@ -17,7 +17,7 @@
 
 }
 .item{
-    margin-left: 1em;
+    margin-left: 2em;
 }
 .item a {
     color: #fff;
@@ -28,5 +28,15 @@
     color: aqua;
 }
 .logo{
-   max-height:110%;
+   max-height:65px;
+   padding: 0;
+   padding-left: 3em;
+   padding-top: 10px;
+   
+}
+.img_user{
+    max-height:50px;
+    padding: 0;
+    padding-right: 2em;
+    padding-top: 7px;
 }

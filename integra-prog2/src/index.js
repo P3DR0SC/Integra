@@ -14,12 +14,21 @@ import Contrato from './routes/Contato';
 import Pagamentos from './routes/Pagamentos';
 import Relatorios from './routes/Relatorios';
 import Treinos from './routes/Treinos';
+import AgendaAdm from './routes/AgendaAdm';
+import Cadastros from './routes/Cadastros';
+import FinanceiroAdm from './routes/FinanceiroAdm';
+import Matriculas from './routes/Matriculas';
+import Pessoas from './routes/Pessoas';
 
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 const router=createBrowserRouter([
   {
     path:"/",
     element: <Inicio/>
+  },
+  {
+    path:"/App",
+    element:<App/>
   },
   {
     path: "/Aulas",
@@ -52,7 +61,28 @@ const router=createBrowserRouter([
   {
     path:"/Treinos",
     element: <Treinos/>
-  }
+  },
+  {
+  path:"/Pessoas",
+  element: <Pessoas/>
+},
+{
+  path:"/Cadastros",
+  element: <Cadastros/>
+},
+{
+  path:"/Matriculas",
+  element: <Matriculas/>
+},
+{
+  path:"/FinanceiroAdm",
+  element: <FinanceiroAdm/>
+},
+{
+  path:"/AgendaAdm",
+  element: <AgendaAdm/>
+},
+  
 
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

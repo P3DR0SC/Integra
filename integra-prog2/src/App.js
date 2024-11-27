@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import './Tela.css';
-import { redirect } from "react-router-dom";
 
-
+import { Link } from 'react-router-dom';
 function App() {
     // Controle de visibilidade dos formulários e overlays
     function clicouEntrar(){
-         redirect("/Aulas");
-
+        console.log("saiu");
+        <Link to="/InicioAluno"></Link>
     }
     const [isLoginVisible, setIsLoginVisible] = useState(true);
 
