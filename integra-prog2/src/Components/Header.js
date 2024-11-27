@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import React from "react"
 import styles from "./Header.Modules.css"
-import logo from '../imagens/logo2.png'
+import logo from './img/logo2.png'
 function Header(){
     return (
             <div className="containers">
