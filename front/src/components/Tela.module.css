@@ -1,0 +1,88 @@
+/* Estilos gerais */
+html, body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  flex-direction: column!important;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #48ff00;
+}
+
+/* Contêiner principal */
+.pageContainer {
+  display: flex;
+  flex-direction: column; /* Coloca tudo em uma única coluna */
+  width: 100%;
+  max-width: 1200px; /* Limita a largura em telas grandes */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Seção do formulário */
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  text-align: center; /* Centraliza o texto */
+}
+
+.loginContainer h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.loginContainer input {
+  width: 100%;
+  max-width: 400px; /* Limita a largura dos campos */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.loginContainer button {
+  width: 100%;
+  max-width: 400px; /* Botão não ultrapassa o limite */
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.loginContainer button:hover {
+  background-color: #45a049;
+}
+
+/* Seção do carrossel */
+.carouselContainer {
+  display: flex;
+  justify-content: center; /* Centraliza as imagens no carrossel */
+  align-items: center;
+  background-color: #222;
+  padding: 20px;
+}
+
+.carouselSlide {
+  display: flex;
+  gap: 10px; /* Espaçamento entre as imagens */
+  justify-content: center;
+}
+
+.carouselImage {
+  width: 100%;
+  max-width: 300px; /* Limita o tamanho das imagens */
+  object-fit: cover;
+  border-radius: 8px;
+}
