@@ -1,62 +1,26 @@
-import { Link } from "react-router-dom";
+import React from "react";
 
-function MenuLateral(){
-    return(
-        <nav className="menu-lateral">
-            <div className="bnt-expandir">
-                <i class="bi bi-list"></i>
-            </div>
-            <ul>
-                <li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-house"></i></span>
-                        <span className="txt-link"><Link to="/InicioAluno">InicioAluno</Link></span>
-                    </a>
-                </li>
-                <li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-book"></i></span>
-                        <span className="txt-link"><Link to="/Aulas">Aulas</Link></span>
-                    </a>
-                </li>
-                <li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-cone-striped"></i></span>
-                        <span className="txt-link"><Link to="/Treinos">Treinos</Link></span>
-                    </a>
-                </li>
-                <li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-calendar2-date"></i></span>
-                        <span className="txt-link"><Link to="/Agenda">Agenda</Link></span>
-                    </a>
-                </li><li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-cash"></i></span>
-                        <span className="txt-link"><Link to="/Pagamentos">Pagamentos</Link></span>
-                    </a>
-                </li><li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-gear"></i></span>
-                        <span className="txt-link"><Link to="/Configuracoes">Configurações</Link></span>
-                    </a>
-                </li><li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-clipboard2"></i></span>
-                        <span className="txt-link"><Link to="/Contrato">Contrato</Link></span>
-                    </a>
-                </li>
-                <li className="item-menu">
-                    <a href="#">
-                        <span className="icon"><i class="bi bi-graph-up-arrow"></i></span>
-                        <span className="txt-link"><Link to="/Relatorios">Relatórios</Link></span>
-                    </a>
-                </li>
-                
+const MenuLateral = () => {
+  return (
+    <div className="sidebar">
+      <div className="profile-section">
+        <img
+          src="https://via.placeholder.com/80"
+          alt="Profile"
+          className="profile-picture"
+        />
+        <h3>CELESC</h3>
+        <p className="plan">Silver Plan</p>
+      </div>
+      <ul className="menu">
+        <li>🏠 Principal</li>
+        <li>📊 Minha evolução</li>
+        <li>📅 Treinos</li>
+        <li>🍴 Plano de dieta</li>
+        <li>💳 Pagamentos</li>
+      </ul>
+    </div>
+  );
+};
 
-
-            </ul>
-        </nav>
-    )
-}
-export default MenuLateral
+export default MenuLateral;

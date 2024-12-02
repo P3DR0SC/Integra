@@ -1,68 +1,119 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* Reset */
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.app {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 20px;  
+  display: top;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.profile-section {
+  text-align: center;
+}
+
+.profile-picture {
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+
+}
+
+.menu li {
+  margin: 15px 0;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.emergency {
+  background-color: #f87171;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.search-bar input {
+  padding: 5px;
+}
+
+/* Dashboard */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  flex: 1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-blue {
+  border-left: 5px solid #1e40af;
+}
+
+.card-orange {
+  border-left: 5px solid #fb923c;
+}
+
+.card-green {
+  border-left: 5px solid #10b981;
+}
+
+.card-red {
+  border-left: 5px solid #ef4444;
+}
+
+.chart-placeholder {
+  margin-top: 10px;
+  height: 100px;
+  background-color: #e5e7eb;
+  border-radius: 5px;
+}
+
+.activities {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.upcoming {
+  margin-top: 30px;
 }

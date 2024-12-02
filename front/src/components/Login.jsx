@@ -1,18 +1,34 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from './Tela.module.css';
+import { createGlobalStyle } from "styled-components";
 
 const LoginPage = () => {
+
+  const GlobalStyle = createGlobalStyle`
+  html, body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: 40px;
+    display: grid;
+    place-items: center;
+  }
+`;
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     console.log("Login com:", usuario, password);
+    navigate("/Main");
   };
 
   return (
+    <>
+      <GlobalStyle />
     <div className={styles.pageContainer}>
-      {/* Formulário de Login */}
       <div className={styles.loginContainer}>
         <h1>Login</h1>
         <form onSubmit={handleLogin}>
@@ -34,7 +50,6 @@ const LoginPage = () => {
         </form>
       </div>
 
-      {/* Carrossel de Imagens */}
       <div className={styles.carouselContainer}>
         <div className={styles.carouselSlide}>
           <img
@@ -55,6 +70,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
