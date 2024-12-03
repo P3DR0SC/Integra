@@ -68,9 +68,10 @@ body {
 /* Dashboard */
 .main-content {
   flex: 1;
-  padding: 20px;
 }
-
+.dashboard{
+  padding-left: 20px;
+}
 .cards {
   display: flex;
   gap: 20px;

@@ -1,30 +1,36 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./components/Login";
+import { AuthProvider } from "./context/AuthContext";
+import LoginPage from "./pages/Login";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import MenuLateral from "./components/MenuLateral";
-import Cabecalho from "./components/cabecalho";
-import Dashboard from "./components/Dashboard";
+import Cabecalho from "./components/Cabecalho";
+import Dashboard from "./pages/Dashboard";
 import "./index.css";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />      
-        <Route 
-          path="/main" 
-          element={
-            <div className="app">
-              <MenuLateral />
-              <div className="main-content">
-                <Cabecalho />
-                <Dashboard />
-              </div>
-            </div>
-          } 
-        />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route
+            path="/main"
+            element={
+              <ProtectedRoute>
+                <div className="app">
+                  <MenuLateral />
+                  <div className="main-content">
+                    <Cabecalho />
+                    <Dashboard />
+                  </div>
+                </div>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

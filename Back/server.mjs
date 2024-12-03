@@ -1,11 +1,10 @@
 import express from "express";
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import { Sequelize, DataTypes } from "sequelize";
 
 dotenv.config();
 
@@ -13,64 +12,125 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const users = [
-  { id: 1, usuario: "user@example.com", password: bcrypt.hashSync("123456", 10) },
-];
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: "postgres",
+});
 
-// Configuração da estratégia local
-passport.use(
-  new LocalStrategy({ usernameField: "usuario" }, (usuario, password, done) => {
-    const user = users.find((u) => u.usuario === usuario); // Match correto
-    if (!user) return done(null, false, { message: "Usuário não encontrado" });
-    if (!bcrypt.compareSync(password, user.password))
-      return done(null, false, { message: "Senha incorreta" });
 
-    return done(null, user);
-  })
+const User = sequelize.define(
+  "pessoas",
+  {
+    id_pessoa: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    nome: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    cpf: {
+      type: DataTypes.STRING(11),
+      allowNull: false,
+      unique: true,
+    },
+    senha: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cargo: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  { timestamps: false }
 );
 
-// Middleware para proteger rotas
+(async () => {
+  const users = await User.findAll(); // Busca todos os usuários
+
+  for (const user of users) {
+    if (!user.senha.startsWith("$2b$")) { // Verifica se a senha já está criptografada
+      const hashedPassword = await bcrypt.hash(user.senha, 10); // Criptografa a senha
+      user.senha = hashedPassword; // Atualiza a senha no objeto
+      await user.save(); // Salva as alterações no banco
+    }
+  }
+
+  console.log("Senhas criptografadas com sucesso!");
+})();
+
+// Rota de login com CPF e senha
+app.post("/login", async (req, res) => {
+  const { cpf, senha } = req.body;
+
+  if (!cpf || !senha) {
+    return res.status(400).json({ message: "CPF e senha são obrigatórios" });
+  }
+
+  try {
+    // Buscar o usuário no banco de dados usando o CPF
+    const user = await User.findOne({ where: { cpf } });
+
+    if (!user) {
+      return res.status(401).json({ message: "Usuário não encontrado" });
+    }
+
+    // Verificar se a senha fornecida corresponde à senha criptografada
+    const isMatch = await bcrypt.compare(senha, user.senha);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Senha incorreta: " + senha  });
+    }
+
+    // Gerar um token JWT
+    const token = jwt.sign({ id: user.id_pessoa, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: "1h", // o token expira após 1 hora
+    });
+
+    // Retornar o token para o cliente
+    return res.json({ token });
+  } catch (error) {
+    console.error("Erro ao fazer login:", error);
+    return res.status(500).json({ message: "Erro no servidor" });
+  }
+});
+
 const authenticateJWT = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Token não fornecido" });
+  if (!token) {
+    console.log("Token não fornecido");
+    return res.status(401).json({ message: "Token não fornecido" });
+  }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: "Token inválido" });
+    if (err) {
+      console.log("Erro ao verificar o token:", err);
+      return res.status(403).json({ message: "Token expirado ou inválido" });
+    }
 
+    console.log("Token válido, usuário:", user);
     req.user = user;
     next();
   });
 };
 
-// Rota de login
-app.post("/login", (req, res, next) => {
-  console.log("Credenciais recebidas:", req.body); // Verifique o que o cliente enviou
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err) {
-      console.error("Erro do Passport:", err);
-      return res.status(500).send(err);
-    }
-    if (!user) {
-      console.warn("Erro de autenticação:", info);
-      return res.status(401).send(info);
-    }
 
-    const token = jwt.sign({ id: user.id, email: user.usuario }, "secreta", {
-      expiresIn: "1h",
-    });
-    console.log("Token gerado:", token);
-    return res.json({ token });
-  })(req, res, next);
-});
-
-
-// Rota protegida (exemplo)
+// Rota protegida
 app.get("/protected", authenticateJWT, (req, res) => {
   res.json({ message: "Você acessou uma rota protegida!", user: req.user });
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+(async () => {
+  await sequelize.sync(); 
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
+})();
