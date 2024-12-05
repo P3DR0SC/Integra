@@ -1,27 +1,8 @@
 import React, { useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { faChartColumn } from '@fortawesome/free-solid-svg-icons';
-/*import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { faDumbbell } from '@fortawesome/free-solid-svg-icons';*/
+/*  icones ---> https://remixicon.com   */
+import 'remixicon/fonts/remixicon.css';  // Importe o CSS para usar os ícones
 
-
-<FontAwesomeIcon icon="fa-solid fa-chart-column" />
 const MenuLateral = () => {
-  const element = <FontAwesomeIcon icon="fa-kit fa-my-icon" />
-
   return (
     <div className="sidebar">
       <div className="profile-section">
@@ -34,10 +15,10 @@ const MenuLateral = () => {
         <p className="plan">Silver Plan</p>
       </div>
       <ul className="menu">
-        <li><FontAwesomeIcon icon={faHouse} className="fa-solid" /> Principal</li> 
-        <li><FontAwesomeIcon icon={faChartColumn} className="fa-solid" /> Minha evolução</li>
-        <li><FontAwesomeIcon icon={faDumbbell} className="fa-solid" /> Treinos</li>  {/* Usando a string */}
-        <li><FontAwesomeIcon icon={faCreditCard} className="fa-solid" /> Financeiro</li>
+        <li><i className="ri-home-3-line"></i> Principal</li>  {/* Usando o ícone */}
+        <li>📊 Minha evolução</li>
+        <li><i className="ri-dumbbell-line"></i> Treinos</li>  {/* Usando o ícone */}
+        <li>💳 Pagamentos</li>
       </ul>
     </div>
   );
