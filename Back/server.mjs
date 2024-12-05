@@ -1,15 +1,18 @@
-import express from "express";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import cors from "cors";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
-import pkg from "pg"; // Importação compatível com CommonJS
-const { Pool } = pkg; // Extração do Pool
+// backend/server.js
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import pkg from 'pg'; 
+const { Pool } = pkg;
 
 dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -22,7 +25,7 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-// Teste de conexão ao banco
+// Teste de conexão ao banco de dados
 pool.connect((err, client, release) => {
   if (err) {
     return console.error("Erro ao conectar ao banco de dados:", err.stack);
@@ -31,16 +34,21 @@ pool.connect((err, client, release) => {
   release();
 });
 
-// Rota para listar alunos
-app.get("/alunos", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM aluno;");
-    res.json(result.rows);
-  } catch (err) {
-    console.error("Erro ao consultar alunos:", err);
-    res.status(500).send("Erro ao consultar alunos");
+// Middleware para autenticação JWT
+const authenticateJWT = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Token não fornecido" });
   }
-});
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Token inválido ou expirado" });
+    }
+    req.user = user;
+    next();
+  });
+};
 
 // Rota de login
 app.post("/login", async (req, res) => {
@@ -52,9 +60,7 @@ app.post("/login", async (req, res) => {
 
   try {
     // Buscar o usuário no banco de dados
-    const result = await pool.query("SELECT * FROM pessoas WHERE cpf = $1", [
-      cpf,
-    ]);
+    const result = await pool.query("SELECT * FROM pessoas WHERE cpf = $1", [cpf]);
     const user = result.rows[0];
 
     if (!user) {
@@ -81,26 +87,21 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Middleware para autenticação JWT
-const authenticateJWT = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) {
-    return res.status(401).json({ message: "Token não fornecido" });
-  }
+// Rota protegida para pegar dados do usuário
+app.get("/user", authenticateJWT, async (req, res) => {
+  const userId = req.user.id;
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: "Token inválido ou expirado" });
+  try {
+    const result = await pool.query("SELECT * FROM pessoas WHERE id_pessoa = $1", [userId]);
+    if (result.rows.length > 0) {
+      return res.json({ nome: result.rows[0].nome });
+    } else {
+      return res.status(404).json({ message: "Usuário não encontrado" });
     }
-
-    req.user = user;
-    next();
-  });
-};
-
-// Rota protegida
-app.get("/protected", authenticateJWT, (req, res) => {
-  res.json({ message: "Você acessou uma rota protegida!", user: req.user });
+  } catch (err) {
+    console.error("Erro ao consultar usuário:", err);
+    res.status(500).json({ message: "Erro ao consultar dados do usuário" });
+  }
 });
 
 // Inicializando o servidor
