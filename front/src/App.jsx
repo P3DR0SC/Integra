@@ -7,6 +7,8 @@ import MenuLateral from "./components/MenuLateral";
 import Cabecalho from "./components/Cabecalho";
 import Dashboard from "./pages/Dashboard";
 import "./index.css";
+import 'font-awesome/css/font-awesome.min.css';
+
 
 function App() {
   return (
