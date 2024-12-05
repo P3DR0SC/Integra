@@ -1,6 +1,7 @@
 /* Reset */
 body {
   margin: 0;
+  overflow: hidden;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
 }
@@ -12,12 +13,15 @@ body {
 /* Sidebar */
 .sidebar {
   width: 250px;
-  background-color: #1e3a8a;
-  color: white;
+  position: fixed;
+  background-color: #ffff;
+  height: 100vh;
+  color: #3d3d3d;
   padding: 20px;  
   display: top;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.6);
 }
 
 .profile-section {
@@ -47,29 +51,21 @@ body {
   text-align: center;
 }
 
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #1d4ed8;
-  color: white;
-}
-
-.search-bar {
-  display: flex;
-  gap: 10px;
-}
-
-.search-bar input {
-  padding: 5px;
-}
 
 /* Dashboard */
 .main-content {
   flex: 1;
+  margin-left: 300px;
+  margin-top: 50px;
+  margin-right: 20px;
+  width: calc(100% - 250px);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: auto;
 }
 .dashboard{
+  
   padding-left: 20px;
 }
 .cards {
@@ -119,3 +115,74 @@ body {
   margin-top: 30px;
 }
 
+.sidebar-menu {
+  list-style-type: none;
+  margin: 0 10px;
+  padding: 0;
+  padding-top: 20px;
+}
+li {
+  display: list-item;
+  padding: 8px;
+  text-align: -webkit-match-parent;
+  unicode-bidi: isolate;
+}
+
+i{
+  font-size: 25px;
+}
+
+.header {
+  height: 50px;
+  top: 0;
+  left: 290px;
+  width: calc(100% - 330px);
+  padding-right: 20%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #468b41;
+  border-bottom: 1px solid #8f999f;
+  position: fixed;
+  padding: 0 20px;
+  border: 1px black;
+  border-bottom-right-radius: 20px;
+}
+
+.user-info {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item span {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.dropdown p {
+  margin: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  background-color: #f0f0f0;
+}

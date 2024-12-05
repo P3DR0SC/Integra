@@ -40,7 +40,9 @@ const LoginPage = () => {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", data.user); 
       console.log("Token recebido:", data.token);
+      console.log("User: ", data.user)
       console.log("Redirecionando para /Main...");
  // Salvar o token no localStorage
       navigate("/Main"); // Redireciona para a página principal
