@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import pkg from 'pg'; 
+import pkg from 'pg';
 const { Pool } = pkg;
 
 dotenv.config();
@@ -103,6 +103,28 @@ app.get("/user", authenticateJWT, async (req, res) => {
     res.status(500).json({ message: "Erro ao consultar dados do usuário" });
   }
 });
+
+app.get("/alunos", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT nome, cpf FROM pessoas where cargo = 3");
+    res.json(result.rows); 
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erro no servidor ao buscar treinos.");
+  }
+});
+
+// Rota para pegar os treinos
+app.get("/treinos", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM treinos");
+    res.json(result.rows); 
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erro no servidor ao buscar treinos.");
+  }
+});
+
 
 // Inicializando o servidor
 const PORT = process.env.PORT || 5000;

@@ -9,6 +9,10 @@ import Dashboard from "./pages/Dashboard";
 import Minha_evolucao from "./pages/Minha_evolucao";
 import Treinos from "./pages/Treinos";
 import Pagamentos from "./pages/Pagamentos";
+import AlunoPag from "./pages/AlunoPag";
+import BoxTipoContrato from "./pages/BoxTipoContrato";
+import TreinoAluno from "./pages/TreinoAluno";
+import FormDieta from "./pages/FormDieta";
 import "./index.css";
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -35,6 +39,10 @@ function App() {
                       <Route path="minha_evolucao" element={<Minha_evolucao />} />
                       <Route path="treinos" element={<Treinos />} />
                       <Route path="pagamentos" element={<Pagamentos />} />
+                      <Route path="AlunoPag" element={<AlunoPag />} />
+                      <Route path="BoxTipoContrato" element={<BoxTipoContrato />} />
+                      <Route path="FormDieta" element={<FormDieta />} />
+                      <Route path="TreinoAluno" element={<TreinoAluno />} />
                     </Routes>
                   </div>
                 </div>

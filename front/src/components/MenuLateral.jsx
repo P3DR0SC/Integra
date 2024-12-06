@@ -29,10 +29,10 @@ const MenuLateral = () => {
       </div>
       <ul className="sidebar-menu">
         {/* Navegação relativa a /main */}
-        <li><Link to="/main"><i className="ri-home-3-line"></i> Principal</Link></li>
-        <li><Link to="/main/minha_evolucao"><i className="ri-bar-chart-box-ai-line"></i> Minha evolução</Link></li>
-        <li><Link to="/main/treinos"><i className="ri-book-marked-line"></i> Treinos</Link></li>
-        <li><Link to="/main/pagamentos"><i className="ri-bank-card-line"></i> Pagamentos</Link></li>
+        <li><Link to="/Main"><i className="ri-home-3-line"></i> Principal</Link></li>
+        <li><Link to="/Main/minha_evolucao"><i className="ri-bar-chart-box-ai-line"></i> Minha evolução</Link></li>
+        <li><Link to="/Main/treinos"><i className="ri-book-marked-line"></i> Treinos</Link></li>
+        <li><Link to="/Main/pagamentos"><i className="ri-bank-card-line"></i> Pagamentos</Link></li>
       </ul>
     </div>
   );
