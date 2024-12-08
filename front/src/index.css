@@ -12,7 +12,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
+  width: 265px;
   position: fixed;
   background-color: #ffff;
   height: 100vh;
@@ -135,8 +135,8 @@ i{
 .header {
   height: 50px;
   top: 0;
-  left: 290px;
-  width: calc(100% - 330px);
+  left: 265px;
+  width: calc(100% - 266px);
   padding-right: 20%;
   display: flex;
   justify-content: flex-end;
@@ -185,4 +185,19 @@ i{
 
 .dropdown p:hover {
   background-color: #f0f0f0;
+}
+
+.ri-arrow-right-s-line.rotate {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  padding-left: 20px;
+}
+
+.submenu li {
+  padding: 5px 0;
+}
+#root{
+  color: #3d3d3d;
 }

@@ -22,7 +22,7 @@ pool.connect((err, client, release) => {
 
 router.get("/treinos", async (req, res) => {
     try {
-      const result = await pool.query("SELECT id_treino, nome_treino FROM treinos");
+      const result = await pool.query("SELECT id_treino, nome_treino, video FROM treinos");
       res.json(result.rows); 
     } catch (err) {
       console.error(err.message);
@@ -93,10 +93,26 @@ router.get("/solicita-treino", async (req, res) => {
     }
 });
 
-router.post("/atribuir-treino", (req, res) => {
-    const { nome, treino } = req.body;
-    console.log(`${nome} está prestes a atribuir um treino de ${treino}`);
-    res.send(`${nome} está prestes a atribuir um treino`);
+app.post("/add_treino_aluno", async (req, res) => {
+  try {
+    const { id_pessoa, id_treino, treino, descricao, rep, serie, peso } = req.body;
+
+    if (!id_pessoa || !id_treino || !treino || !descricao || !rep || !serie || !peso) {
+      return res.status(400).json({ message: "Todos os campos são obrigatórios" });
+    }
+
+    const query = `
+      INSERT INTO treino_aluno (id_pessoa, id_treino, treino, descricao, rep, serie)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `;
+
+    await pool.query(query, [id_pessoa, id_treino, treino, descricao, rep, serie]);
+
+    return res.status(201).json({ message: "Treino cadastrado com sucesso!" });
+  } catch (err) {
+    console.error("Erro ao salvar treino para o aluno:", err.message);
+    res.status(500).send("Erro no servidor ao salvar treino.");
+  }
 });
 
 app.get("/alunos", async (req, res) => {
@@ -108,6 +124,8 @@ app.get("/alunos", async (req, res) => {
       res.status(500).send("Erro no servidor ao buscar treinos.");
     }
   });
+
+
 
 router.post("/professor", (req, res) => {
     const { nome, email, senha, cpf, dataNascimento, telefone } = req.body;

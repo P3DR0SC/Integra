@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../styles/TreinoAluno.css";
-import { fetchTreinos, fetchAlunos } from "../api/CadastrosAPI";
+import { fetchTreinos, fetchAlunos, cadastrarTreinoAluno } from "../api/CadastrosAPI";
 
 const TreinoAluno = () => {
   const [alunos, setAlunos] = useState([]);
   const [formData, setFormData] = useState({
-    id_treino: "",
     id_pessoa: "",
+    id_treino: "",
+    viedo: "",
     descricao: "",
-    rep_serie: "",
+    rep: "",
+    serie: "",
+    peso:"",
   });
   const [treinos, setTreinos] = useState([]);
 
@@ -27,16 +30,15 @@ const TreinoAluno = () => {
     };
 
     carregarDados();
-  }, []); // Dependência vazia: rodará apenas uma vez quando o componente for montado
-
+  }, []); 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
+    cadastrarTreinoAluno({...formData, [video]: treinos.video});
     e.preventDefault();
-    // Lógica para enviar o formulário
     console.log("Dados do Formulário:", formData);
   };
 
@@ -90,11 +92,31 @@ const TreinoAluno = () => {
         </label>
 
         <label>
-          Repetições/Série:
+          Repetições:
           <input
             type="text"
-            name="rep_serie"
-            value={formData.rep_serie}
+            name="rep"
+            value={formData.rep}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Série:
+          <input
+            type="text"
+            name="serie"
+            value={formData.serie}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Peso:
+          <input
+            type="text"
+            name="peso"
+            value={formData.peso}
             onChange={handleChange}
             required
           />

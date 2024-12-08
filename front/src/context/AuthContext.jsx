@@ -1,6 +1,4 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -27,21 +25,11 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
       return;
     }
-
-    try {
-      const decoded = jwt_decode(token);
-      const isExpired = decoded.exp * 1000 < Date.now();
-      if (isExpired) {
-        setIsAuthenticated(false);
-        localStorage.removeItem("token");
-      } else {
-        setIsAuthenticated(true);
-      }
-    } catch (error) {
-      setIsAuthenticated(false);
-    } finally {
+    else{
+      setIsAuthenticated(true);
       setIsLoading(false);
     }
+    
   };
 
   useEffect(() => {

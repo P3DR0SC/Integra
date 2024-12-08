@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import useUserInfo from "../hooks/UserInfo"; 
 import 'remixicon/fonts/remixicon.css'; 
 import { Link } from 'react-router-dom'; 
 
 const MenuLateral = () => {
-  const { userInfo, loading, error } = useUserInfo(); // Usando o hook para obter as informações do usuário
+  const { userInfo, loading, error } = useUserInfo(); 
+  const [isSubMenuOpent, setIsSubMenuOpent] = useState(false); 
+  const [ isSubMenuOpenp, setIsSubMenuOpenP] = useState(false); 
+  const [ isSubMenuOpenS, setIsSubMenuOpenS] = useState(false); 
 
-  // Exibe "Carregando..." enquanto os dados estão sendo carregados
+
   if (loading) {
     return <div>Carregando...</div>;
   }
 
-  // Exibe erro caso algo aconteça durante a requisição
   if (error) {
     return <div>Erro: {error}</div>;
   }
+
+  const { cargo } = userInfo || {};
+  console.log(userInfo);
+  const ProfMaiores = cargo <= 2;
+  const Adminjs = cargo === 1;
+
+
+
+  const toggleSubMenuT = () => {
+    setIsSubMenuOpent(!isSubMenuOpent);
+  };
+  const toggleSubMenuP = () => {
+    setIsSubMenuOpenP(!isSubMenuOpenp);
+  };
+  const toggleSubMenuS = () => {
+    setIsSubMenuOpenS(!isSubMenuOpenS);
+  };
 
   return (
     <div className="sidebar">
@@ -30,9 +49,43 @@ const MenuLateral = () => {
       <ul className="sidebar-menu">
         {/* Navegação relativa a /main */}
         <li><Link to="/Main"><i className="ri-home-3-line"></i> Principal</Link></li>
-        <li><Link to="/Main/minha_evolucao"><i className="ri-bar-chart-box-ai-line"></i> Minha evolução</Link></li>
-        <li><Link to="/Main/treinos"><i className="ri-book-marked-line"></i> Treinos</Link></li>
+        <li><Link to="/Main/TabAv"><i className="ri-bar-chart-box-ai-line"></i> Minha evolução</Link></li>
+        <li onClick={toggleSubMenuT}>
+          <i className="ri-settings-3-line"></i> Treino
+          <i className={`ri-arrow-right-s-line ${isSubMenuOpent ? "rotate" : ""}`}></i>
+        </li>
+        {isSubMenuOpent && (
+          <ul className="submenu">
+            {ProfMaiores && (<li><Link to="/Main/treinos"><i className="ri-table-2"></i>Treinos</Link></li>)}
+            {ProfMaiores && (<li><Link to="/Main/FormNovoTreino"><i className="ri-heart-add-2-line"></i> Cadastrar Treinos</Link></li>)}
+            {ProfMaiores && (<li><Link to="/Main/TreinoAluno"><i className="ri-add-box-line"></i>Atribuir Treino</Link></li>)}
+          </ul>
+        )}
         <li><Link to="/Main/pagamentos"><i className="ri-bank-card-line"></i> Pagamentos</Link></li>
+        <li><Link to="/Main/TabAlunos"><i className="ri-user-add-line"></i> Alunos</Link></li>
+        <li><Link to="/Main/TabProfs"><i claclassNamess="ri-group-line"></i> Professores</Link></li>
+        <li onClick={toggleSubMenuP}>
+          <i className="ri-settings-3-line"></i> Avaliações
+          <i className={`ri-arrow-right-s-line ${isSubMenuOpenp ? "rotate" : ""}`}></i>
+        </li>
+        {isSubMenuOpenp && (
+          <ul className="submenu">
+            {ProfMaiores && (<li><Link to="/Main/FormMedidasPostura"><i className="ri-table-2"></i>Cadastrar</Link></li>)}
+            {ProfMaiores && (<li><Link to="/Main/FormNovoTreino"><i className="ri-heart-add-2-line"></i> Cadastrar Treinos</Link></li>)}
+            {ProfMaiores && (<li><Link to="/Main/TreinoAluno"><i className="ri-add-box-line"></i>Atribuir Treino</Link></li>)}
+          </ul>
+        )}
+        <li onClick={toggleSubMenuS}>
+          <i className="ri-settings-3-line"></i> Solicitações
+          <i className={`ri-arrow-right-s-line ${isSubMenuOpenS ? "rotate" : ""}`}></i>
+        </li>
+        {isSubMenuOpenS && (
+          <ul className="submenu">
+            {ProfMaiores && (<li><Link to="/Main/TabPedidosTre"><i className="ri-table-2"></i>Treinos</Link></li>)}
+            {ProfMaiores && (<li><Link to="/Main/FormNovoTreino"><i className="ri-heart-add-2-line"></i>Dietas</Link></li>)}
+          </ul>
+        )}
+        
       </ul>
     </div>
   );

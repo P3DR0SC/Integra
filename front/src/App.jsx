@@ -12,7 +12,14 @@ import Pagamentos from "./pages/Pagamentos";
 import AlunoPag from "./pages/AlunoPag";
 import BoxTipoContrato from "./pages/BoxTipoContrato";
 import TreinoAluno from "./pages/TreinoAluno";
-import FormDieta from "./pages/FormDieta";
+import FormNovoTreino from "./pages/FormNovoTreino";
+import TabAlunos from "./pages/TabAlunos";
+import TabProfs from "./pages/TabProfs";
+import NoAccess from "./pages/NoAccess";
+import FormMedidasPostura from "./pages/FormMedidasPostura";
+import FormAvaliacaoFisica from "./pages/FormAvaliacaoFisica";
+import TabAv from "./pages/TabAv";
+
 import "./index.css";
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -41,8 +48,15 @@ function App() {
                       <Route path="pagamentos" element={<Pagamentos />} />
                       <Route path="AlunoPag" element={<AlunoPag />} />
                       <Route path="BoxTipoContrato" element={<BoxTipoContrato />} />
-                      <Route path="FormDieta" element={<FormDieta />} />
+                      <Route path="FormNovoTreino" element={<FormNovoTreino />} />
                       <Route path="TreinoAluno" element={<TreinoAluno />} />
+                      <Route path="TabAlunos" element={<TabAlunos />} />
+                      <Route path="TabProfs" element={<TabProfs />} />
+                      <Route path="NoAccess" element={<NoAccess />} />
+                      <Route path="FormMedidasPostura" element={<FormMedidasPostura />} />
+                      <Route path="FormAvaliacaoFisica" element={<FormAvaliacaoFisica />} />
+                      <Route path="TabAv" element={<TabAv />} />
+                      <Route path="NoAccess" element={<NoAccess />} />
                     </Routes>
                   </div>
                 </div>
