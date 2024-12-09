@@ -1,5 +1,5 @@
 import React from "react";
-import "./DuracaoContrato.css";
+import "../styles/DuracaoContrato.css";
 
 const DuracaoContrato = () => {
   // Data final do contrato (defina a data final desejada)

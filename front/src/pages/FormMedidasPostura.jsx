@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";  // Importando o react-select
 import "../styles/FormMedidasPostura.css";
 import { cadastrarAv, fetchAlunos } from "../api/CadastrosAPI";
+import jwtDecode from 'jwt-decode';
 
 const FormMedidasPostura = () => {
   const [alunos, setAlunos] = useState([]);
@@ -64,85 +65,39 @@ const FormMedidasPostura = () => {
     });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    
     const dadosCompletos = {
       ...formData,
       idPessoaTrei,        
       id_pessoa_av: alunoSelecionado,   
-      peso: parseInt(formData.peso, 10),
-      altura: parseInt(formData.altura, 10),
-      idade: parseInt(formData.idade, 10),
-      ombro: parseInt(formData.ombro, 10),
-      antebracoEsquerdo: parseInt(formData.antebracoEsquerdo, 10),
-      antebracoDireito: parseInt(formData.antebracoDireito, 10),
-      bracoRelachadoEsquerdo: parseInt(formData.bracoRelachadoEsquerdo, 10),
-      bracoRelachadoDireito: parseInt(formData.bracoRelachadoDireito, 10),
-      coxaEsquerda: parseInt(formData.coxaEsquerda, 10),
-      coxaDireita: parseInt(formData.coxaDireita, 10),
-      panturrilhaDireita: parseInt(formData.panturrilhaDireita, 10),
-      panturrilhaEsquerda: parseInt(formData.panturrilhaEsquerda, 10),
-      peitoral: parseInt(formData.peitoral, 10),
-      abdomen: parseInt(formData.abdomen, 10),
-      cintura: parseInt(formData.cintura, 10),
-      quadril: parseInt(formData.quadril, 10),
+      peso: parseInt(formData.peso, 10), // Convertendo para inteiro
+      altura: parseInt(formData.altura, 10), // Convertendo para inteiro
+      idade: parseInt(formData.idade, 10), // Convertendo para inteiro
+      ombro: parseInt(formData.ombro, 10), // Convertendo para inteiro
+      antebracoEsquerdo: parseInt(formData.antebracoEsquerdo, 10), // Convertendo para inteiro
+      antebracoDireito: parseInt(formData.antebracoDireito, 10), // Convertendo para inteiro
+      bracoRelachadoEsquerdo: parseInt(formData.bracoRelachadoEsquerdo, 10), // Convertendo para inteiro
+      bracoRelachadoDireito: parseInt(formData.bracoRelachadoDireito, 10), // Convertendo para inteiro
+      coxaEsquerda: parseInt(formData.coxaEsquerda, 10), // Convertendo para inteiro
+      coxaDireita: parseInt(formData.coxaDireita, 10), // Convertendo para inteiro
+      panturrilhaDireita: parseInt(formData.panturrilhaDireita, 10), // Convertendo para inteiro
+      panturrilhaEsquerda: parseInt(formData.panturrilhaEsquerda, 10), // Convertendo para inteiro
+      peitoral: parseInt(formData.peitoral, 10), // Convertendo para inteiro
+      abdomen: parseInt(formData.abdomen, 10), // Convertendo para inteiro
+      cintura: parseInt(formData.cintura, 10), // Convertendo para inteiro
+      quadril: parseInt(formData.quadril, 10), // Convertendo para inteiro 
     };
-
+    
+    console.log("Dados enviados:", dadosCompletos);
     try {
       console.log("Enviando dados ao backend:", dadosCompletos);
-      const response = await cadastrarAv(dadosCompletos);
+      const response = await cadastrarAv(dadosCompletos);  
       console.log("Resposta do servidor:", response);
       alert("Avaliação cadastrada com sucesso!");
-      setFormData({
-        peso: "",
-        altura: "",
-        idade: "",
-        ombro: "",
-        antebracoEsquerdo: "",
-        antebracoDireito: "",
-        bracoRelachadoEsquerdo: "",
-        bracoRelachadoDireito: "",
-        bracoContraidoDireito: "",
-        bracoContraidoEsquerdo: "",
-        coxaEsquerda: "",
-        coxaDireita: "",
-        panturrilhaDireita: "",
-        panturrilhaEsquerda: "",
-        peitoral: "",
-        abdomen: "",
-        cintura: "",
-        quadril: "",
-        hiperlordoseLombar: false,
-        hiperlordoseCervical: false,
-        hipercifose: false,
-        escoliose: false,
-        rotacaoInternaOmbros: false,
-        trianguloTalesAssimetrico: false,
-        protacaoEscapular: false,
-        retracaoEscapular: false,
-        depressaoEscapular: false,
-        encurtamentoTrapezio: false,
-        ombrosAssimetricos: false,
-        desvioQuadril: false,
-        assimetriaQuadril: false,
-        protusaoAbdominal: false,
-        anteversaoPelvica: false,
-        retroversaoPelvica: false,
-        genuFlexo: false,
-        genuRecurvado: false,
-        genuValgo: false,
-        genuVaro: false,
-        peAbduzido: false,
-        peValgo: false,
-        peCalcaneo: false,
-        peVaro: false,
-        pePlano: false,
-        peCavo: false,
-        peEquino: false,
-      });
-  
-      setAlunoSelecionado(''); 
     } catch (error) {
       console.error("Erro ao enviar dados:", error);
       alert("Ocorreu um erro ao cadastrar a avaliação. Tente novamente.");
@@ -161,11 +116,8 @@ const FormMedidasPostura = () => {
 
     const token = localStorage.getItem('token');
     if (token) {
-      // Decodificando o JWT manualmente
-      const base64Url = token.split('.')[1]; // Obtendo a parte do payload
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Corrigindo o formato Base64Url para Base64
-      const decodedPayload = JSON.parse(atob(base64)); // Decodificando e convertendo para JSON
-      setIdPessoaTrei(decodedPayload.id); // Definindo o idPessoaTrei
+      const decoded = jwtDecode(token);
+      setIdPessoaTrei(decoded.id);  
     }
 
     fetchData();
@@ -177,7 +129,7 @@ const FormMedidasPostura = () => {
   }));
 
   const handleAlunoChange = (selectedOption) => {
-    setAlunoSelecionado(selectedOption ? selectedOption.value : '');
+    setAlunoSelecionado(selectedOption ? selectedOption.value : '');  
   };
 
   return (
@@ -189,14 +141,13 @@ const FormMedidasPostura = () => {
         <div>
           <label>Aluno:</label>
           <Select
-            options={alunosOptions}
-            onChange={handleAlunoChange}
-            value={alunosOptions.find(option => option.value === alunoSelecionado)}
+            options={alunosOptions}  
+            onChange={handleAlunoChange}  
+            value={alunosOptions.find(option => option.value === alunoSelecionado)} 
             placeholder="Pesquise e selecione um aluno"
           />
         </div>
       </div>
-
       <h3>Dados Físicos</h3>
       <label>
         Peso (kg):
@@ -225,7 +176,6 @@ const FormMedidasPostura = () => {
           onChange={handleInputChange}
         />
       </label>
-
       <h3>Medidas Corporais</h3>
       {[
         "ombro", "antebracoEsquerdo", "antebracoDireito", "bracoRelachadoEsquerdo", 
@@ -244,6 +194,7 @@ const FormMedidasPostura = () => {
         </label>
       ))}
 
+      {/* Sessão de Avaliação Postural */}
       <h3>Avaliação Postural</h3>
       {[
         "hiperlordoseLombar", "hiperlordoseCervical", "hipercifose", "escoliose", 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ConfiguraPerfil from "./ConfigPerfil";
 import "../styles/ConfigPerfil.css";
-import axios from "axios"; // Não se esqueça de importar o axios
 
 const TabAlunos = () => {
   const [alunos, setAlunos] = useState([]); // Define o estado inicial para alunos
@@ -24,6 +23,7 @@ const TabAlunos = () => {
     }
   };
 
+  // Carrega os dados dos alunos ao montar o componente
   useEffect(() => {
     const carregarDados = async () => {
       try {
@@ -57,24 +57,10 @@ const TabAlunos = () => {
     setSelectedAluno(null);
   };
 
-  const confirmDelete = async () => {
-    try {
-      console.log("ID do aluno a ser deletado:", selectedAluno.id_pessoa); // Verifique o ID
-      alert(`Excluindo o aluno com ID: ${selectedAluno.id_pessoa}`);
-
-      const response = await axios.delete(`http://localhost:5000/aluno/${selectedAluno.id_pessoa}`);
-      if (response.status === 200) {
-        alert("Aluno excluído com sucesso!");
-        setIsDeleteModalOpen(false);
-        setSelectedAluno(null);
-        // Recarregar a lista de alunos após a exclusão
-        const alunosAtualizados = await fetchAlunos();
-        setAlunos(alunosAtualizados);
-      }
-    } catch (error) {
-      console.error("Erro ao excluir aluno:", error);
-      alert("Ocorreu um erro ao excluir o aluno. Tente novamente.");
-    }
+  const confirmDelete = () => {
+    alert(`Cliente ${selectedAluno.nome} excluído com sucesso!`);
+    setIsDeleteModalOpen(false);
+    setSelectedAluno(null);
   };
 
   return (
@@ -119,7 +105,7 @@ const TabAlunos = () => {
       {isEditModalOpen && (
         <div className="modal_e">
           <div className="modal-content_e">
-            <h3>Editar: {selectedAluno?.cpf}</h3>
+            <h3>Editar: {selectedAluno?.nome}</h3>
             <ConfiguraPerfil aluno={selectedAluno} />
             <button className="btn-close_e" onClick={closeEditModal}>
               Fechar
@@ -139,7 +125,7 @@ const TabAlunos = () => {
               <button className="btn-cancel" onClick={closeDeleteModal}>
                 Cancelar
               </button>
-              <button className="btn-confirm" onClick={() => confirmDelete()}>
+              <button className="btn-confirm" onClick={confirmDelete}>
                 Confirmar
               </button>
             </div>
