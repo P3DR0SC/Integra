@@ -20,6 +20,7 @@ import FormMedidasPostura from "./pages/FormMedidasPostura";
 import FormAvaliacaoFisica from "./pages/FormAvaliacaoFisica";
 import TabAv from "./pages/TabAv";
 import FormCad from "./pages/FormCad";
+import FormSol from "./pages/FormSol";
 import "./index.css";
 import 'font-awesome/css/font-awesome.min.css';
 
