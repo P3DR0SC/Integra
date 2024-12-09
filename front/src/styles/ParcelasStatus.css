@@ -1,0 +1,51 @@
+.caixa-parcelas-status {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin: 20px auto;
+    text-align: left;
+  }
+  
+  .caixa-parcelas-status h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .parcelas-container {
+    display: flex;
+    justify-content: space-between; /* Para espaçar as parcelas horizontalmente */
+    gap: 20px; /* Espaçamento entre os itens */
+    flex-wrap: wrap; /* Caso o espaço não seja suficiente, as parcelas podem ir para a linha abaixo */
+  }
+  
+  .parcela {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    width: 30%; /* Definindo largura fixa para cada parcela */
+    box-sizing: border-box; /* Para não ultrapassar a largura definida */
+  }
+  
+  .parcela h3 {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .parcela p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .parcela-atual {
+    background-color: #d3f9d8;
+  }
+  
+  .parcela strong {
+    font-weight: bold;
+    color: #333;
+  }
+  

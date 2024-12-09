@@ -1,0 +1,53 @@
+/* Estrutura geral */
+.container {
+    padding: 16px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+.container p{
+    padding-right: 30px;
+}
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .date {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Informações do usuário */
+  .users-info,
+  .evaluator-info {
+    display: inline-flex;
+    flex-wrap: wrap;
+  }
+  
+  .info-block {
+    flex: 1 1 100%;
+  }
+  
+  .info-item {
+    flex: 1 1 25%;
+  }
+  
+  .info-label {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .info-value {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Divisor */
+  .divider {
+    border: 1px solid #eee;
+    margin: 16px 0;
+  }
+  
