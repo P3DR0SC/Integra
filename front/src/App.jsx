@@ -57,6 +57,7 @@ function App() {
                       <Route path="FormMedidasPostura" element={<FormMedidasPostura />} />
                       <Route path="FormAvaliacaoFisica" element={<FormAvaliacaoFisica />} />
                       <Route path="TabAv" element={<TabAv />} />
+                      <Route path="FormSol" element={<FormSol />} />
                       <Route path="AlunoPag" element={<AlunoPag />} />
                       <Route path="NoAccess" element={<NoAccess />} />
                     </Routes>

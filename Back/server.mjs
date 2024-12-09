@@ -107,6 +107,7 @@ app.get("/user", authenticateJWT, async (req, res) => {
 });
 
 
+
 app.get("/alunos", async (req, res) => {
   try {
     const result = await pool.query("SELECT nome, cpf, telefone, email, cpf, genero, id_pessoa, senha FROM pessoas where cargo = 3");
