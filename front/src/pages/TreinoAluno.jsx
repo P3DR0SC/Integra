@@ -7,7 +7,7 @@ const TreinoAluno = () => {
   const [formData, setFormData] = useState({
     id_pessoa: "",
     id_treino: "",
-    viedo: "",
+    video: "",
     descricao: "",
     rep: "",
     serie: "",
@@ -15,15 +15,14 @@ const TreinoAluno = () => {
   });
   const [treinos, setTreinos] = useState([]);
 
-  // Carregar os dados dos treinos e alunos
   useEffect(() => {
     const carregarDados = async () => {
       try {
-        const dadosTreinos = await fetchTreinos();  // Chamando a função de API para os treinos
-        const dadosAlunos = await fetchAlunos();  // Chamando a função de API para os alunos
+        const dadosTreinos = await fetchTreinos();  
+        const dadosAlunos = await fetchAlunos();  
 
-        setTreinos(dadosTreinos); // Armazenando os treinos
-        setAlunos(dadosAlunos);   // Armazenando os alunos
+        setTreinos(dadosTreinos); 
+        setAlunos(dadosAlunos);   
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
       }
@@ -37,11 +36,26 @@ const TreinoAluno = () => {
   };
 
   const handleSubmit = async (e) => {
-    cadastrarTreinoAluno({...formData, [video]: treinos.video});
-    e.preventDefault();
-    console.log("Dados do Formulário:", formData);
+    e.preventDefault(); 
+  
+    console.log("ID Treino Selecionado:", formData.id_treino);
+  
+    const treinoSelecionado = treinos.find(
+      (e) => e.id_treino === parseInt(formData.id_treino)
+    );
+  
+    if (treinoSelecionado) {
+      const formDataAtualizado = { ...formData, video: treinoSelecionado.video };
+      try {
+        await cadastrarTreinoAluno(formDataAtualizado);
+      } catch (erro) {
+        console.error("Erro ao cadastrar treino:", erro);
+      }
+    } else {
+      console.error("Treino não encontrado.");
+    }
   };
-
+  
   return (
     <div className="cadastro-treino-aluno">
       <h2>Cadastrar Treino para Aluno</h2>
@@ -121,7 +135,7 @@ const TreinoAluno = () => {
             required
           />
         </label>
-
+        <button type="submit">Enviar</button>
         <button type="submit">Cadastrar Treino</button>
       </form>
     </div>

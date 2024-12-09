@@ -140,14 +140,12 @@ app.get("/InfosAV", async (req, res) => {
 
 app.post("/add_treino_aluno", async (req, res) => {
   try {
-
     const { id_pessoa, id_treino, video, descricao, rep, serie, peso } = req.body;
 
     if (!id_pessoa || !id_treino || !video || !descricao || !rep || !serie || !peso) {
-      res("Campo faltando ou inválido:", { id_pessoa, id_treino, video, descricao, rep, serie, peso });
+      //return res.status("Campo faltando ou inválido:", { id_pessoa, id_treino, video, descricao, rep, serie, peso });
       return res.status(400).json({ message: "Todos os campos são obrigatórios" });
     }
-
     const query = `
       INSERT INTO treino_aluno (id_pessoa, id_treino, video, descricao, rep, serie, peso)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -377,7 +375,7 @@ app.delete("/profs/:id", async (req, res) => {
 
 app.get("/treinos", async (req, res) => {
   try {
-    const result = await pool.query("SELECT id_treino, nome_treino, video FROM treinos");
+    const result = await pool.query("SELECT * FROM treinos");
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "Nenhum treino encontrado" });

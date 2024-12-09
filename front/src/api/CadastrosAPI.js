@@ -89,6 +89,7 @@ export const cadastrarAv = async (dados) => {
 };
 
 export const cadastrarTreinoAluno = async (formData) => {
+  console.log("oi");
   try {
     const response = await fetch(`${API_BASE_URL}/add_treino_aluno`, {
       method: "POST",
@@ -97,6 +98,7 @@ export const cadastrarTreinoAluno = async (formData) => {
       },
       body: JSON.stringify(formData),
     });
+    console.log(formData);
     if (!response.ok) {
       throw new Error("Erro ao Atribuir treino.");
     }
