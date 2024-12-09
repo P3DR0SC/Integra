@@ -1,4 +1,4 @@
-// backend/server.js
+
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -109,7 +109,7 @@ app.get("/user", authenticateJWT, async (req, res) => {
 
 app.get("/alunos", async (req, res) => {
   try {
-    const result = await pool.query("SELECT nome, cpf, fone, email, cpf, genero, id_pessoa FROM pessoas where cargo = 3");
+    const result = await pool.query("SELECT nome, cpf, telefone, email, cpf, genero, id_pessoa, senha FROM pessoas where cargo = 3");
     res.json(result.rows); 
   } catch (err) {
     console.error(err.message);
@@ -119,7 +119,7 @@ app.get("/alunos", async (req, res) => {
 
 app.get("/Profs", async (req, res) => {
   try {
-    const result = await pool.query("SELECT nome, cpf, fone, email, cpf, genero FROM pessoas where cargo = 2");
+    const result = await pool.query("SELECT nome, cpf, telefone, email, cpf, genero, id_pessoa, senha FROM pessoas where cargo = 2");
     res.json(result.rows); 
   } catch (err) {
     console.error(err.message);
@@ -210,13 +210,170 @@ app.post('/add_av', async (req, res) => {
 
       await pool.query(query, values);
 
-      res.status(200).send("Avaliação cadastrada com sucesso!");
+      return res.status(201).json({ message: "Avaliação feita com maestria!" });
   } catch (err) {
       console.error("Erro ao cadastrar avaliação:", err);
       res.status(400).send("Erro ao cadastrar avaliação.");
   }
 });
 
+app.put("/aluno/:id", async (req, res) => {
+  const { id } = req.params;
+  const { nome, telefone, email, cpf, genero, senha, cargo } = req.body;
+
+  // Exibir id para depuração, mas não enviar para o cliente
+  console.log("ID do aluno a ser atualizado:", id);
+
+  try {
+    // Primeiro, buscar o aluno no banco de dados usando o id
+    const result = await pool.query("SELECT * FROM pessoas WHERE id_pessoa = $1", [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("Aluno não encontrado");
+    }
+
+    // Aluno encontrado, agora vamos preparar os dados para atualização
+    const aluno = result.rows[0];
+    let senhaAtualizada = aluno.senha;
+
+    // Se uma nova senha for fornecida, criptografe-a
+    if (senha) {
+      const salt = await bcrypt.genSalt(10);
+      senhaAtualizada = await bcrypt.hash(senha, salt);
+    }
+
+    // Atualizar os dados do aluno no banco de dados
+    const updateQuery = `
+      UPDATE pessoas
+      SET nome = $1, telefone = $2, email = $3, cpf = $4, genero = $5, senha = $6, cargo = $7
+      WHERE id_pessoa = $8
+      RETURNING *;
+    `;
+
+    // Definindo os valores para atualização
+    const values = [
+      nome || aluno.nome, 
+      telefone || aluno.telefone, 
+      email || aluno.email, 
+      cpf || aluno.cpf, 
+      genero || aluno.genero, 
+      senhaAtualizada, 
+      cargo || aluno.cargo, 
+      id
+    ];
+
+    const updateResult = await pool.query(updateQuery, values);
+
+    const updatedAluno = updateResult.rows[0];
+    res.status(200).json({ message: "Perfil atualizado com sucesso", aluno: updatedAluno });
+
+  } catch (error) {
+    console.error("Erro ao atualizar o perfil:", error);
+    res.status(500).send("Erro ao atualizar perfil");
+  }
+});
+
+
+app.delete("/aluno/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query("DELETE FROM pessoas WHERE id_pessoa = $1", [id]);
+    res.status(200).send("Aluno excluído com sucesso");
+  } catch (error) {
+    console.error("Erro ao excluir aluno", error);
+    res.status(500).send("Erro ao excluir aluno");
+  }
+});
+
+app.put("/profs/:id", async (req, res) => {
+  const { id } = req.params;
+  const { nome, telefone, email, cpf, genero, senha, cargo } = req.body;
+
+  // Exibir id para depuração, mas não enviar para o cliente
+  console.log("ID do Professor a ser atualizado:", id);
+
+  try {
+    // Primeiro, buscar o aluno no banco de dados usando o id
+    const result = await pool.query("SELECT * FROM pessoas WHERE id_pessoa = $1", [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("Professor não encontrado");
+    }
+
+    // Aluno encontrado, agora vamos preparar os dados para atualização
+    const Professor = result.rows[0];
+    let senhaAtualizada = Professor.senha;
+
+    // Se uma nova senha for fornecida, criptografe-a
+    if (senha) {
+      const salt = await bcrypt.genSalt(10);
+      senhaAtualizada = await bcrypt.hash(senha, salt);
+    }
+
+    // Atualizar os dados do aluno no banco de dados
+    const updateQuery = `
+      UPDATE pessoas
+      SET nome = $1, telefone = $2, email = $3, cpf = $4, genero = $5, senha = $6, cargo = $7
+      WHERE id_pessoa = $8
+      RETURNING *;
+    `;
+
+    // Definindo os valores para atualização
+    const values = [
+      nome || Professor.nome, 
+      telefone || Professor.telefone, 
+      email || Professor.email, 
+      cpf || Professor.cpf, 
+      genero || Professor.genero, 
+      senhaAtualizada, 
+      cargo || Professor.cargo, 
+      id
+    ];
+
+    const updateResult = await pool.query(updateQuery, values);
+
+    const updatedProfessor = updateResult.rows[0];
+    res.status(200).json({ message: "Perfil atualizado com sucesso", Professor: updatedProfessor });
+
+  } catch (error) {
+    console.error("Erro ao atualizar o perfil:", error);
+    res.status(500).send("Erro ao atualizar perfil");
+  }
+});
+
+app.post("/cadastrar", async (req, res) => {
+  try {
+
+    const { nome, telefone, email, cpf, genero, senha, cargo } = req.body;
+
+    if (!nome || !telefone || !email || !cpf || !genero || !senha || !cargo) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios!' });
+    }
+  
+
+    const query = `
+      INSERT INTO pessoas (nome, telefone, email, cpf, genero, senha, cargo)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `;
+    await pool.query(query, [nome, telefone, email, cpf, genero, senha, cargo]);
+
+    return res.status(201).json({ message: "cadastrado com sucesso!" });
+  } catch (err) {
+    console.error("Erro a Pessoa:", err.message);
+    res.status(500).send("Erro no servidor ao salvar Pessoa.");
+  }
+});
+
+app.delete("/profs/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query("DELETE FROM pessoas WHERE id_pessoa = $1", [id]);
+    res.status(200).send("Professor excluído com sucesso");
+  } catch (error) {
+    console.error("Erro ao excluir professor", error);
+    res.status(500).send("Erro ao excluir aluno");
+  }
+});
 
 app.get("/treinos", async (req, res) => {
   try {

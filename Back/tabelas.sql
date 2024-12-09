@@ -18,7 +18,7 @@ CREATE TABLE pessoas (
 );
 
 -- Criação da tabela de avaliação
-CREATE TABLE avaliacao (
+CREATE TABLE avaliacoes (
     id_av SERIAL PRIMARY KEY,                        -- Identificador único, autoincrementado
     id_pessoa_av INT NOT NULL,                       -- Chave estrangeira para a tabela 'pessoas'
     peso DECIMAL(5, 2) NOT NULL,                    -- Peso com até 5 dígitos (ex: 999.99)

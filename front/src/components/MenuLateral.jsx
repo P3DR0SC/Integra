@@ -61,9 +61,9 @@ const MenuLateral = () => {
             {ProfMaiores && (<li><Link to="/Main/TreinoAluno"><i className="ri-add-box-line"></i>Atribuir Treino</Link></li>)}
           </ul>
         )}
-        <li><Link to="/Main/pagamentos"><i className="ri-bank-card-line"></i> Pagamentos</Link></li>
-        <li><Link to="/Main/TabAlunos"><i className="ri-user-add-line"></i> Alunos</Link></li>
-        <li><Link to="/Main/TabProfs"><i claclassNamess="ri-group-line"></i> Professores</Link></li>
+        <li><Link to="/Main/AlunoPag"><i className="ri-bank-card-line"></i> Pagamentos</Link></li>
+        {ProfMaiores && (<li><Link to="/Main/TabAlunos"><i className="ri-user-add-line"></i> Alunos</Link></li>)}
+        {ProfMaiores && (<li><Link to="/Main/TabProfs"><i claclassNamess="ri-group-line"></i> Professores</Link></li>)}
         <li onClick={toggleSubMenuP}>
           <i className="ri-settings-3-line"></i> Avaliações
           <i className={`ri-arrow-right-s-line ${isSubMenuOpenp ? "rotate" : ""}`}></i>
@@ -76,13 +76,12 @@ const MenuLateral = () => {
           </ul>
         )}
         <li onClick={toggleSubMenuS}>
-          <i className="ri-settings-3-line"></i> Solicitações
+          <i className="ri-settings-3-line"></i> Cadastros
           <i className={`ri-arrow-right-s-line ${isSubMenuOpenS ? "rotate" : ""}`}></i>
         </li>
         {isSubMenuOpenS && (
           <ul className="submenu">
-            {ProfMaiores && (<li><Link to="/Main/TabPedidosTre"><i className="ri-table-2"></i>Treinos</Link></li>)}
-            {ProfMaiores && (<li><Link to="/Main/FormNovoTreino"><i className="ri-heart-add-2-line"></i>Dietas</Link></li>)}
+            {ProfMaiores && (<li><Link to="/Main/FormCad"><i className="ri-table-2"></i>Pessoas</Link></li>)}
           </ul>
         )}
         

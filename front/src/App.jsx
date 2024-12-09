@@ -19,7 +19,7 @@ import NoAccess from "./pages/NoAccess";
 import FormMedidasPostura from "./pages/FormMedidasPostura";
 import FormAvaliacaoFisica from "./pages/FormAvaliacaoFisica";
 import TabAv from "./pages/TabAv";
-
+import FormCad from "./pages/FormCad";
 import "./index.css";
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -46,6 +46,7 @@ function App() {
                       <Route path="minha_evolucao" element={<Minha_evolucao />} />
                       <Route path="treinos" element={<Treinos />} />
                       <Route path="pagamentos" element={<Pagamentos />} />
+                      <Route path="FormCad" element={<FormCad />} />
                       <Route path="AlunoPag" element={<AlunoPag />} />
                       <Route path="BoxTipoContrato" element={<BoxTipoContrato />} />
                       <Route path="FormNovoTreino" element={<FormNovoTreino />} />
@@ -56,6 +57,7 @@ function App() {
                       <Route path="FormMedidasPostura" element={<FormMedidasPostura />} />
                       <Route path="FormAvaliacaoFisica" element={<FormAvaliacaoFisica />} />
                       <Route path="TabAv" element={<TabAv />} />
+                      <Route path="AlunoPag" element={<AlunoPag />} />
                       <Route path="NoAccess" element={<NoAccess />} />
                     </Routes>
                   </div>
