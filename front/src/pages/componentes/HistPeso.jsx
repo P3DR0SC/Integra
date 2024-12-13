@@ -24,6 +24,8 @@ const HistoricoPeso = () => {
   useEffect(() => {
     // Função para buscar os dados da API
     const fetchData = async () => {
+      //console.log(userInfo.id);
+    
       if (userInfo?.id) {
         setLoading(true); // Ativa o carregamento
         console.log('Buscando dados com ID:', userInfo.id); // Log do ID do usuário
@@ -40,13 +42,13 @@ const HistoricoPeso = () => {
             console.warn('Os dados recebidos não estão no formato esperado:', response.data);
             setDados([]);
           }
-          setError(null); // Limpa qualquer erro anterior
+          setError(null); 
         } catch (err) {
           console.error('Erro ao buscar dados da API:', err.message);
           setError('Erro ao carregar os dados.');
           setDados([]);
         } finally {
-          setLoading(false); // Finaliza o carregamento
+          setLoading(false); 
         }
       } else {
         console.warn('userInfo.id_pessoa não está disponível.');

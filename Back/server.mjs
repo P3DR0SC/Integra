@@ -47,8 +47,8 @@ const authenticateJWT = (req, res, next) => {
 };
 
 app.get('/historico_peso/:id', async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
+  //const { id } = req.params;
+  //console.log(id);
   if (!id) {
     return res.status(400).json({ message: "Usuário ID não fornecido" });
   }
@@ -56,7 +56,7 @@ app.get('/historico_peso/:id', async (req, res) => {
   try {
     // Consulta ao banco para pegar o histórico do aluno
     const result = await pool.query(
-      "SELECT peso, data FROM avaliacao WHERE id_pessoa_av = $1 ORDER BY data ASC",  
+      "SELECT peso, data FROM avaliacoes WHERE id_pessoa_av = $1 ORDER BY data ASC",  
       [id]  
     );
     const historico = result.rows;
@@ -138,7 +138,7 @@ app.get("/user", authenticateJWT, async (req, res) => {
     const result = await pool.query("SELECT * FROM pessoas WHERE id_pessoa = $1", [userId]);
     if (result.rows.length > 0) {
       const user = result.rows[0];
-      return res.json({ nome: user.nome, cargo: user.cargo , id: user.id_pessoa_av});
+      return res.json({ nome: user.nome, cargo: user.cargo , id: user.id_pessoa});
     } else {
       return res.status(404).json({ message: "Usuário não encontrado" });
     }
