@@ -1,0 +1,11 @@
+INSERT INTO pessoas (nome, telefone, email, cpf, genero, senha, cargo) VALUES
+('Administrador 1', '111111111', 'adm1@email.com', '12345678901', 'M', '123456a', 1),
+('Professor 1', '222222222', 'prof1@email.com', '12345678902', 'M', '123456b', 2),
+('Professor 2', '333333333', 'prof2@email.com', '12345678903', 'F', '123456c', 2),
+('Aluno 1', '444444444', 'aluno1@email.com', '12345678904', 'M', '123456d', 3),
+('Aluno 2', '555555555', 'aluno2@email.com', '12345678905', 'F', '123456e', 3),
+('Aluno 3', '666666666', 'aluno3@email.com', '12345678906', 'M', '123456f', 3),
+('Aluno 4', '777777777', 'aluno4@email.com', '12345678907', 'F', '123456g', 3),
+('Aluno 5', '888888888', 'aluno5@email.com', '12345678908', 'M', '123456h', 3),
+('Aluno 6', '999999999', 'aluno6@email.com', '12345678909', 'F', '123456i', 3),
+('Aluno 7', '000000000', 'aluno7@email.com', '12345678910', 'M', '123456f', 3);

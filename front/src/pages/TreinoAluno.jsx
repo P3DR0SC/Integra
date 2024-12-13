@@ -12,6 +12,7 @@ const TreinoAluno = () => {
     rep: "",
     serie: "",
     peso:"",
+    dia:"",
   });
   const [treinos, setTreinos] = useState([]);
 
@@ -36,7 +37,7 @@ const TreinoAluno = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
   
     console.log("ID Treino Selecionado:", formData.id_treino);
   
@@ -48,6 +49,18 @@ const TreinoAluno = () => {
       const formDataAtualizado = { ...formData, video: treinoSelecionado.video };
       try {
         await cadastrarTreinoAluno(formDataAtualizado);
+        alert("Treino Cadastrado com sucesso!!");
+
+        setFormData({
+          id_pessoa: "",
+          id_treino: "",
+          video: "",
+          descricao: "",
+          rep: "",
+          serie: "",
+          peso: "",
+          dia: "",
+        });
       } catch (erro) {
         console.error("Erro ao cadastrar treino:", erro);
       }
@@ -55,7 +68,6 @@ const TreinoAluno = () => {
       console.error("Treino não encontrado.");
     }
   };
-  
   return (
     <div className="cadastro-treino-aluno">
       <h2>Cadastrar Treino para Aluno</h2>
@@ -95,6 +107,25 @@ const TreinoAluno = () => {
         </label>
 
         <label>
+          Selecionar Dia:
+          <select
+            name="dia"
+            value={formData.dia}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione um treino</option>
+              <option value='1'>Domingo</option>
+              <option value='2'>Segunda</option>
+              <option value='3'>Terça</option>
+              <option value='4'>Quarta</option>
+              <option value='5'>Quinta</option>
+              <option value='6'>Sexta</option>
+              <option value='7'>Sabado</option>
+          </select>
+        </label>
+
+        <label>
           Descrição:
           <textarea
             name="descricao"
@@ -104,6 +135,7 @@ const TreinoAluno = () => {
             required
           ></textarea>
         </label>
+        
 
         <label>
           Repetições:
@@ -135,7 +167,6 @@ const TreinoAluno = () => {
             required
           />
         </label>
-        <button type="submit">Enviar</button>
         <button type="submit">Cadastrar Treino</button>
       </form>
     </div>

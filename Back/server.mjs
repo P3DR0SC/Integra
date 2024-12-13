@@ -46,15 +46,32 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
-app.get('/historico_peso', async (req, res) => {
-  const result = await pool.query("SELECT * FROM pessoas LIMIT 1");
-    const hist = result.rows[0];
-    console.log(hist);
-    if (!hist) {
-      return res.status(401).json({ message: "Sem hist irmão" });
+app.get('/historico_peso/:id', async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  if (!id) {
+    return res.status(400).json({ message: "Usuário ID não fornecido" });
+  }
+
+  try {
+    // Consulta ao banco para pegar o histórico do aluno
+    const result = await pool.query(
+      "SELECT peso, data FROM avaliacao WHERE id_pessoa_av = $1 ORDER BY data ASC",  
+      [id]  
+    );
+    const historico = result.rows;
+
+    if (historico.length === 0) {
+      return res.status(404).json({ message: "Nenhum histórico encontrado para este aluno." });
     }
-  res.json(hist);
+
+    res.json(historico);  // Retorna os dados do histórico
+  } catch (error) {
+    console.error("Erro ao buscar histórico:", error);
+    res.status(500).json({ message: "Erro no servidor" });
+  }
 });
+
 
 app.post("/login", async (req, res) => {
   const { cpf, senha } = req.body;
@@ -64,6 +81,7 @@ app.post("/login", async (req, res) => {
   }
 
   try {
+    // Busca o usuário pelo CPF
     const result = await pool.query("SELECT * FROM pessoas WHERE cpf = $1", [cpf]);
     const user = result.rows[0];
 
@@ -71,20 +89,44 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Usuário não encontrado" });
     }
 
-    const isMatch = await bcrypt.compare(senha, user.senha);
-    if (!isMatch) {
+    // Verifica se a senha no banco está criptografada
+    const senhaDoBanco = user.senha;
+    const isHash = /^\$2[ayb]\$[0-9]{2}\$.{53}$/.test(senhaDoBanco);
+
+    let senhaCorreta = false;
+
+    if (isHash) {
+      // Se estiver criptografada, compara usando bcrypt
+      senhaCorreta = await bcrypt.compare(senha, senhaDoBanco);
+    } else {
+      // Se não estiver criptografada, criptografa e atualiza no banco
+      if (senha === senhaDoBanco) {
+        const salt = await bcrypt.genSalt(10);
+        const senhaCriptografada = await bcrypt.hash(senha, salt);
+
+        await pool.query("UPDATE pessoas SET senha = $1 WHERE cpf = $2", [
+          senhaCriptografada,
+          cpf,
+        ]);
+
+        senhaCorreta = true;
+      }
+    }
+
+    if (!senhaCorreta) {
       return res.status(401).json({ message: "Senha incorreta" });
     }
 
+    // Gera o token JWT
     const token = jwt.sign(
-      { id: user.id_pessoa, email: user.email, cargo: user.cargo }, 
+      { id: user.id_pessoa, email: user.email, cargo: user.cargo },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
 
     return res.json({ token });
   } catch (error) {
-    console.error("Erro ao fazer login:", error);
+    console.error("Erro no login:", error.message);
     return res.status(500).json({ message: "Erro no servidor" });
   }
 });
@@ -105,7 +147,6 @@ app.get("/user", authenticateJWT, async (req, res) => {
     res.status(500).json({ message: "Erro ao consultar dados do usuário" });
   }
 });
-
 
 
 app.get("/alunos", async (req, res) => {
@@ -141,17 +182,17 @@ app.get("/InfosAV", async (req, res) => {
 
 app.post("/add_treino_aluno", async (req, res) => {
   try {
-    const { id_pessoa, id_treino, video, descricao, rep, serie, peso } = req.body;
+    const { id_pessoa, id_treino, video, descricao, rep, serie, peso, dia } = req.body;
 
-    if (!id_pessoa || !id_treino || !video || !descricao || !rep || !serie || !peso) {
+    if (!id_pessoa || !id_treino || !video || !descricao || !rep || !serie || !peso || !dia) {
       //return res.status("Campo faltando ou inválido:", { id_pessoa, id_treino, video, descricao, rep, serie, peso });
       return res.status(400).json({ message: "Todos os campos são obrigatórios" });
     }
     const query = `
-      INSERT INTO treino_aluno (id_pessoa, id_treino, video, descricao, rep, serie, peso)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO treino_aluno (id_pessoa, id_treino, video, descricao, rep, serie, peso, dia)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     `;
-    await pool.query(query, [id_pessoa, id_treino, video, descricao, rep, serie, peso]);
+    await pool.query(query, [id_pessoa, id_treino, video, descricao, rep, serie, peso, dia]);
 
     return res.status(201).json({ message: "Treino cadastrado com sucesso!" });
   } catch (err) {
