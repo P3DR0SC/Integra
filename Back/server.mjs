@@ -47,7 +47,7 @@ const authenticateJWT = (req, res, next) => {
 };
 
 app.get('/historico_peso/:id', async (req, res) => {
-  //const { id } = req.params;
+  const { id } = req.params;
   //console.log(id);
   if (!id) {
     return res.status(400).json({ message: "Usuário ID não fornecido" });
@@ -397,7 +397,7 @@ app.post("/cadastrar", async (req, res) => {
     `;
     await pool.query(query, [nome, telefone, email, cpf, genero, senha, cargo]);
 
-    return res.status(201).json({ message: "cadastrado com sucesso!" });
+    return res.status(200).json({ message: "cadastrado com sucesso!" });
   } catch (err) {
     console.error("Erro a Pessoa:", err.message);
     res.status(500).send("Erro no servidor ao salvar Pessoa.");

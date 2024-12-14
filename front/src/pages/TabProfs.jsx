@@ -93,7 +93,7 @@ const TabProfs = () => {
                 <td>{professor.nome}</td>
                 <td>{professor.cpf}</td>
                 <td>{professor.genero || "Não informado"}</td>
-                <td>{professor.fone || "Não informado"}</td>
+                <td>{professor.telefone || "Não informado"}</td>
                 <td>{professor.email || "Não informado"}</td>
                 <td>{professor.status || "Ativo"}</td>
                 <td>

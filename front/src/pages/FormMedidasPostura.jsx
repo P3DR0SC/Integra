@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";  // Importando o react-select
 import "../styles/FormMedidasPostura.css";
 import { cadastrarAv, fetchAlunos } from "../api/CadastrosAPI";
-import jwtDecode from 'jwt-decode';
+
 
 const FormMedidasPostura = () => {
   const [alunos, setAlunos] = useState([]);

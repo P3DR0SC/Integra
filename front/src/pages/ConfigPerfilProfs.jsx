@@ -6,7 +6,7 @@ import "../styles/ConfigPerfil.css";
 const ConfigPerfilProfs = ({ professor, closeModal }) => {
   const [formData, setFormData] = useState({
     nome: "",
-    fone: "",
+    telefone: "",
     email: "",
     cpf: "",
     genero: "",
@@ -20,7 +20,7 @@ const ConfigPerfilProfs = ({ professor, closeModal }) => {
     if (professor) {
       setFormData({
         nome: professor.nome || "",
-        fone: professor.fone || "",
+        fone: professor.telefone || "",
         email: professor.email || "",
         cpf: professor.cpf || "",
         genero: professor.genero || "",

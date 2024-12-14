@@ -86,7 +86,7 @@ const TabAlunos = () => {
               <td>{aluno.nome}</td>
               <td>{aluno.cpf}</td>
               <td>{aluno.genero || "Não informado"}</td>
-              <td>{aluno.fone || "Não informado"}</td>
+              <td>{aluno.telefone || "Não informado"}</td>
               <td>{aluno.email || "Não informado"}</td>
               <td>{aluno.status || "Ativo"}</td>
               <td>

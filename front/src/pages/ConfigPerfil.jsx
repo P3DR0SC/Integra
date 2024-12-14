@@ -6,7 +6,7 @@ import "../styles/ConfigPerfil.css";
 const ConfigPerfil = ({ aluno, closeModal }) => {
   const [formData, setFormData] = useState({
     nome: "",
-    fone: "",
+    telefone: "",
     email: "",
     cpf: "",
     genero: "",
@@ -19,7 +19,7 @@ const ConfigPerfil = ({ aluno, closeModal }) => {
     if (aluno) {
       setFormData({
         nome: aluno.nome || "",
-        fone: aluno.fone || "",
+        telefone: aluno.telefone || "",
         email: aluno.email || "",
         cpf: aluno.cpf || "",
         genero: aluno.genero || "",
@@ -89,7 +89,7 @@ const ConfigPerfil = ({ aluno, closeModal }) => {
             <input
               type="tel"
               name="fone"
-              value={formData.fone}
+              value={formData.telefone}
               onChange={handleChange}
               required
             />
